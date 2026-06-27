@@ -8,7 +8,7 @@ This is my submission for the Full‑Stack Developer technical assessment (**Ass
 - **Frontend:** React + TypeScript + Vite + Tailwind CSS
 - **Tests:** 74 total — 65 backend (Vitest + supertest), 9 frontend (Vitest + Testing Library + MSW)
 
-> **Live demo:** _<add your hosted URL here>_ — log in with the seeded users below.
+> **Live demo:** http://84.247.140.73:5000 — log in with the seeded users below.
 
 ---
 
