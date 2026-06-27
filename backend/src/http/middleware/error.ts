@@ -7,6 +7,7 @@ import {
   ForbiddenTransitionError,
   IllegalTransitionError,
 } from '../../domain/errors.js';
+import { UploadError } from '../../lib/cloudinary.js';
 import { ApiError, type ApiErrorCode } from '../errors.js';
 
 interface ErrorBody {
@@ -46,6 +47,10 @@ function toApiError(err: unknown): ApiError {
     const message =
       err.code === 'LIMIT_FILE_SIZE' ? 'File exceeds the maximum allowed size' : err.message;
     return new ApiError(422, 'VALIDATION_ERROR', message);
+  }
+
+  if (err instanceof UploadError) {
+    return new ApiError(422, 'VALIDATION_ERROR', `Attachment rejected: ${err.message}`);
   }
 
   return new ApiError(500, 'INTERNAL_ERROR', 'Something went wrong');

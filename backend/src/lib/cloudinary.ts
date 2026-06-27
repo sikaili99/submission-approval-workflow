@@ -14,6 +14,15 @@ export interface UploadResult {
   name: string;
 }
 
+// Thrown when the storage provider rejects the file (e.g. an invalid image).
+// The HTTP layer maps this to a 422 rather than a generic 500.
+export class UploadError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'UploadError';
+  }
+}
+
 export async function uploadAttachment(
   buffer: Buffer,
   originalName: string,
@@ -23,7 +32,11 @@ export async function uploadAttachment(
       { folder: 'approvals', resource_type: 'auto' },
       (error, uploaded) => {
         if (error || !uploaded) {
-          reject(error ?? new Error('Upload failed'));
+          const message =
+            error && typeof error === 'object' && 'message' in error
+              ? String((error as { message: unknown }).message)
+              : 'Upload failed';
+          reject(new UploadError(message));
           return;
         }
         resolve(uploaded as { secure_url: string });
