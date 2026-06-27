@@ -8,7 +8,7 @@ import {
   StatusPill,
 } from '../landing/parts.js';
 
-const GITHUB_URL = 'https://github.com';
+const GITHUB_URL = 'https://github.com/sikaili99/submission-approval-workflow';
 
 const FEATURES = [
   {
