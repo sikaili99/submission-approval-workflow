@@ -4,6 +4,7 @@ import { useApplication, useTransition } from '../api/hooks.js';
 import type { Action } from '../api/types.js';
 import { ApiError } from '../api/client.js';
 import { AsyncBoundary } from '../components/AsyncBoundary.js';
+import { AttachmentPreview } from '../components/AttachmentPreview.js';
 import { AuditTimeline } from '../components/AuditTimeline.js';
 import { Button } from '../components/Button.js';
 import { StatusBadge } from '../components/Badge.js';
@@ -32,6 +33,7 @@ export function ApplicationDetail() {
 
   const [dialogAction, setDialogAction] = useState<Action | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
+  const [previewOpen, setPreviewOpen] = useState(false);
 
   async function run(action: Action, comment?: string) {
     setActionError(null);
@@ -113,15 +115,13 @@ export function ApplicationDetail() {
                   </p>
                 )}
                 {app.attachmentUrl && (
-                  <a
-                    href={app.attachmentUrl}
-                    target="_blank"
-                    rel="noreferrer"
+                  <button
+                    onClick={() => setPreviewOpen(true)}
                     className="focusable mt-3.5 inline-flex items-center gap-1.5 rounded-lg border border-line bg-[#FCFCFA] px-3 py-1.5 text-[13px] font-semibold text-graphite hover:border-graphite"
                   >
                     <FileIcon size={15} />
                     {app.attachmentName ?? 'Attachment'}
-                  </a>
+                  </button>
                 )}
 
                 {(app.availableTransitions.length > 0 || app.canEdit) && (
@@ -205,6 +205,15 @@ export function ApplicationDetail() {
                 onConfirm={(comment) => dialogAction && void run(dialogAction, comment)}
                 onClose={() => setDialogAction(null)}
               />
+
+              {app.attachmentUrl && (
+                <AttachmentPreview
+                  open={previewOpen}
+                  url={app.attachmentUrl}
+                  name={app.attachmentName ?? 'Attachment'}
+                  onClose={() => setPreviewOpen(false)}
+                />
+              )}
             </div>
           );
         })()
