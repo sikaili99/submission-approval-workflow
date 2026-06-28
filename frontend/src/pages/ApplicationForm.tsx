@@ -235,29 +235,34 @@ export function ApplicationForm() {
             <p className="rounded-lg border-[1.5px] border-dashed border-line px-3 py-2.5 text-[13px] text-faint">
               Save the draft first, then you can attach a file.
             </p>
-          ) : attachmentName ? (
-            <div className="flex items-center gap-2.5 rounded-lg border-[1.5px] border-[#D8D6CF] bg-[#FCFCFA] px-3 py-2.5">
-              <FileIcon size={18} className="text-graphite" />
-              <span className="flex-1 truncate text-[13px]">{attachmentName}</span>
-              {existing.data?.attachmentUrl && (
-                <a
-                  href={existing.data.attachmentUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="focusable text-xs font-semibold text-graphite"
-                >
-                  View
-                </a>
-              )}
-            </div>
           ) : (
             <>
+              {attachmentName && (
+                <div className="mb-2 flex items-center gap-2.5 rounded-lg border-[1.5px] border-[#D8D6CF] bg-[#FCFCFA] px-3 py-2.5">
+                  <FileIcon size={18} className="text-graphite" />
+                  <span className="flex-1 truncate text-[13px]">{attachmentName}</span>
+                  {existing.data?.attachmentUrl && (
+                    <a
+                      href={existing.data.attachmentUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="focusable text-xs font-semibold text-graphite"
+                    >
+                      View
+                    </a>
+                  )}
+                </div>
+              )}
               <label
                 htmlFor="file"
                 className="focusable flex cursor-pointer items-center gap-2.5 rounded-lg border-[1.5px] border-dashed border-[#D8D6CF] px-3 py-2.5 text-[13px] text-muted hover:border-graphite hover:text-graphite"
               >
                 <UploadIcon size={17} />
-                {upload.isPending ? 'Uploading…' : 'Choose a file — PNG, JPG, WEBP or PDF, up to 5MB'}
+                {upload.isPending
+                  ? 'Uploading…'
+                  : attachmentName
+                    ? 'Replace file — PNG, JPG, WEBP or PDF, up to 5MB'
+                    : 'Choose a file — PNG, JPG, WEBP or PDF, up to 5MB'}
               </label>
               <input
                 id="file"
