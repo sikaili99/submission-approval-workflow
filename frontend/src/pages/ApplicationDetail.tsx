@@ -110,7 +110,7 @@ export function ApplicationDetail() {
                   <Meta label="Submitted" value={formatDate(app.createdAt)} />
                 </div>
                 {app.description && (
-                  <p className="mt-4 max-w-[620px] text-sm leading-relaxed text-[#26282D]">
+                  <p className="mt-4 max-w-[620px] whitespace-pre-wrap text-sm leading-relaxed text-[#26282D]">
                     {app.description}
                   </p>
                 )}
